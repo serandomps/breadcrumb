@@ -13,7 +13,7 @@ module.exports = function (sandbox, fn, options) {
         }
         $(out).appendTo(sandbox);
         fn(false, function () {
-            sandbox.remove('.breadcrumb');
+            $('.breadcrumb', sandbox).remove();
         });
     });
 };
