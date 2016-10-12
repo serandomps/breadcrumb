@@ -1,0 +1,21 @@
+{
+  "name": "breadcrumb",
+  "description": "breadcrumb component",
+  "styles": [
+    "styles.css"
+  ],
+  "scripts": [
+    "index.js"
+  ],
+  "templates": [
+    "template.html"
+  ],
+  "main": "index.js",
+  "dependencies": {
+    "serandomps/dust": "master",
+    "serandomps/serand": "master"
+  },
+  "locals": [],
+  "repository": "serandomps/breadcrumb",
+  "resolved": "f86120699ce65e8d0f9eb8516aad6317333ab701"
+}
