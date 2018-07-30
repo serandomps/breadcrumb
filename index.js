@@ -7,7 +7,7 @@ var context;
 
 dust.loadSource(dust.compile(require('./template'), 'breadcrumb-ui'));
 
-module.exports = function (sandbox, fn, options) {
+module.exports = function (sandbox, options, done) {
     var destroy = function () {
         $('.breadcrumb', sandbox).remove();
     };
@@ -16,13 +16,13 @@ module.exports = function (sandbox, fn, options) {
         options: options,
         destroy: destroy
     };
-    fn(false, destroy);
+    done(null, destroy);
 };
 
 serand.on('breadcrumb', 'render', function (links) {
     dust.render('breadcrumb-ui', links, function (err, out) {
         if (err) {
-            return;
+            return console.error(err);
         }
         context.destroy();
         $(out).appendTo(context.sandbox);
