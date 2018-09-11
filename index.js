@@ -24,7 +24,9 @@ serand.on('breadcrumb', 'render', function (links) {
         if (err) {
             return console.error(err);
         }
-        context.destroy();
+        if (!context) {
+            return;
+        }
         $(out).appendTo(context.sandbox);
     });
 });
