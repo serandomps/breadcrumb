@@ -7,7 +7,8 @@ var context;
 
 dust.loadSource(dust.compile(require('./template'), 'breadcrumb-ui'));
 
-module.exports = function (ctx, sandbox, options, done) {
+module.exports = function (ctx, container, options, done) {
+    var sandbox = container.sandbox;
     var destroy = function () {
         $('.breadcrumb', sandbox).remove();
     };
