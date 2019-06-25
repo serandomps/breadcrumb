@@ -8,13 +8,12 @@ var context;
 dust.loadSource(dust.compile(require('./template'), 'breadcrumb-ui'));
 
 module.exports = function (ctx, container, options, done) {
-    var sandbox = container.sandbox;
     var destroy = function () {
-        $('.breadcrumb', sandbox).remove();
+        $('.breadcrumb', container.sandbox).remove();
     };
     context = {
         ctx: ctx,
-        sandbox: sandbox,
+        container: container,
         options: options,
         destroy: destroy
     };
@@ -22,14 +21,14 @@ module.exports = function (ctx, container, options, done) {
 };
 
 serand.on('breadcrumb', 'render', function (links) {
-    dust.render('breadcrumb-ui', links, function (err, out) {
+    dust.render('breadcrumb-ui', serand.pack(links, context && context.container), function (err, out) {
         if (err) {
             return console.error(err);
         }
         if (!context) {
             return;
         }
-        $(out).appendTo(context.sandbox);
+        $(out).appendTo(context.container.sandbox);
     });
 });
 
