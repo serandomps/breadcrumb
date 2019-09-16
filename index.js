@@ -1,5 +1,6 @@
 var dust = require('dust')();
 var serand = require('serand');
+var utils = require('utils');
 
 var user;
 
@@ -20,7 +21,7 @@ module.exports = function (ctx, container, options, done) {
     done(null, destroy);
 };
 
-serand.on('breadcrumb', 'render', function (links) {
+utils.on('breadcrumb', 'render', function (links) {
     dust.render('breadcrumb-ui', serand.pack(links, context && context.container), function (err, out) {
         if (err) {
             return console.error(err);
@@ -33,7 +34,7 @@ serand.on('breadcrumb', 'render', function (links) {
 });
 
 setTimeout(function () {
-    serand.emit('breadcrumb', 'render', [
+    utils.emit('breadcrumb', 'render', [
         {title: 'Home', url: '/'},
         {title: 'Accounts', url: '/accounts'}
     ]);
