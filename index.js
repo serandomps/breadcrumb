@@ -1,41 +1,21 @@
 var dust = require('dust')();
 var serand = require('serand');
-var utils = require('utils');
 
-var user;
-
-var context;
-
-dust.loadSource(dust.compile(require('./template'), 'breadcrumb-ui'));
+dust.loadSource(dust.compile(require('./template.html'), 'breadcrumb'));
 
 module.exports = function (ctx, container, options, done) {
-    var destroy = function () {
-        $('.breadcrumb', container.sandbox).remove();
-    };
-    context = {
-        ctx: ctx,
-        container: container,
-        options: options,
-        destroy: destroy
-    };
-    done(null, destroy);
-};
-
-utils.on('breadcrumb', 'render', function (links) {
-    dust.render('breadcrumb-ui', serand.pack(links, context && context.container), function (err, out) {
+    var sandbox = container.sandbox;
+    dust.render('breadcrumb', serand.pack({
+        year: moment().year(),
+        privacy: 'www:///privacy',
+        terms: 'www:///terms'
+    }, container), function (err, out) {
         if (err) {
-            return console.error(err);
+            return done(err);
         }
-        if (!context) {
-            return;
-        }
-        $(out).appendTo(context.container.sandbox);
+        sandbox.append(out);
+        done(null, function () {
+            $('.breadcrumb', sandbox).remove();
+        });
     });
-});
-
-setTimeout(function () {
-    utils.emit('breadcrumb', 'render', [
-        {title: 'Home', url: '/'},
-        {title: 'Accounts', url: '/accounts'}
-    ]);
-}, 0);
+};
